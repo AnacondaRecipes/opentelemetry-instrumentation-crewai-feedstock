@@ -1,50 +1,54 @@
 {% set name = "opentelemetry-instrumentation-crewai" %}
 {% set version = "0.47.2" %}
-{% set python_min = "3.10" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/opentelemetry_instrumentation_crewai-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
   sha256: 27b2c14318f579341e54763a2175c673787123da03f61a27d9546fb470e23b1a
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: true  # [py<310]
 
 requirements:
   host:
-    - python {{ python_min }}
-    - poetry-core
     - pip
+    - python
+    - poetry-core
   run:
-    - python >={{ python_min }}
+    - python
     - opentelemetry-api >=1.28.0,<2.0.0
     - opentelemetry-instrumentation >=0.50b0
     - opentelemetry-semantic-conventions >=0.50b0
-    - opentelemetry-semantic-conventions-ai >=0.4.12,<0.5
+    - opentelemetry-semantic-conventions-ai >=0.4.13,<0.5
+  run_constrained:
+    - crewai >=0.80.0,<0.81.0
 
+# Unable to run tests and check imports, crewai is not in the main channel.
 test:
-  imports:
-    - opentelemetry.instrumentation.crewai
   commands:
     - pip check
   requires:
     - pip
-    - python {{ python_min }}
-    - python {{ python_min }}
 
 about:
   home: https://www.traceloop.com/openllmetry
+  summary: OpenTelemetry crewAI instrumentation
   dev_url: https://github.com/traceloop/openllmetry
   doc_url: https://www.traceloop.com/docs/openllmetry/introduction
-  summary: OpenTelemetry crewAI instrumentation
+  description: |
+    This library allows tracing agentic workflows implemented with crewAI framework crewAI library.
   license: Apache-2.0
+  license_family: Apache
   license_file: LICENSE
 
 extra:
   recipe-maintainers:
     - timkpaine
+  skip-lints:
+    - invalid_url
+    - missing_imports_or_run_test_py
