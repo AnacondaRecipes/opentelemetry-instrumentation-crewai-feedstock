@@ -1,5 +1,5 @@
 {% set name = "opentelemetry-instrumentation-crewai" %}
-{% set version = "0.47.2" %}
+{% set version = "0.49.6" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-  sha256: 27b2c14318f579341e54763a2175c673787123da03f61a27d9546fb470e23b1a
+  sha256: eb39fa78067bad71e329c8eaa6aa6aa112a30bbf75f6648f308ba68247081aed
 
 build:
   number: 0
@@ -21,9 +21,9 @@ requirements:
     - poetry-core
   run:
     - python
-    - opentelemetry-api >=1.28.0,<2.0.0
-    - opentelemetry-instrumentation >=0.50b0
-    - opentelemetry-semantic-conventions >=0.50b0
+    - opentelemetry-api >=1.38.0,<2.0.0
+    - opentelemetry-instrumentation >=0.59b0
+    - opentelemetry-semantic-conventions >=0.59b0
     - opentelemetry-semantic-conventions-ai >=0.4.13,<0.5
   run_constrained:
     - crewai >=0.80.0,<0.81.0
