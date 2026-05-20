@@ -25,9 +25,12 @@ requirements:
     - opentelemetry-instrumentation >=0.59b0
     - opentelemetry-semantic-conventions >=0.59b0
     - opentelemetry-semantic-conventions-ai >=0.5.1,<0.6.0
+  run_constrained:
+    - crewai >=0.80.0,<0.81.0
 
-# Unable to run tests and check imports, crewai is not in the main channel.
 test:
+  imports:
+    - opentelemetry.instrumentation.crewai
   commands:
     - pip check
   requires:
